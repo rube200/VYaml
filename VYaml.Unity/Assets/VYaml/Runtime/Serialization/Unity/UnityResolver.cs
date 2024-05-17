@@ -213,7 +213,7 @@ namespace VYaml.Serialization.Unity
             return FormatterCache<T>.Formatter;
         }
 
-        private static object? TryCreateGenericFormatter(Type type)
+        static object? TryCreateGenericFormatter(Type type)
         {
             Type? formatterType = null;
 

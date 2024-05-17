@@ -4,11 +4,11 @@ using VYaml.Parser;
 
 namespace VYaml.Serialization.Unity
 {
-    public class Vector4Formatter : IYamlFormatter<Vector4>
+    public class QuaternionFormatter : IYamlFormatter<Quaternion>
     {
-        public static readonly Vector4Formatter Instance = new();
+        public static readonly QuaternionFormatter Instance = new();
 
-        public void Serialize(ref Utf8YamlEmitter emitter, Vector4 value, YamlSerializationContext context)
+        public void Serialize(ref Utf8YamlEmitter emitter, Quaternion value, YamlSerializationContext context)
         {
             emitter.BeginSequence(SequenceStyle.Flow);
             emitter.WriteFloat(value.x);
@@ -18,14 +18,8 @@ namespace VYaml.Serialization.Unity
             emitter.EndSequence();
         }
 
-        public Vector4 Deserialize(ref YamlParser parser, YamlDeserializationContext context)
+        public Quaternion Deserialize(ref YamlParser parser, YamlDeserializationContext context)
         {
-            if (parser.IsNullScalar())
-            {
-                parser.Read();
-                return default;
-            }
-
             parser.ReadWithVerify(ParseEventType.SequenceStart);
             var x = parser.ReadScalarAsFloat();
             var y = parser.ReadScalarAsFloat();
@@ -33,7 +27,7 @@ namespace VYaml.Serialization.Unity
             var w = parser.ReadScalarAsFloat();
             parser.ReadWithVerify(ParseEventType.SequenceEnd);
 
-            return new Vector4(x, y, z, w);
+            return new Quaternion(x, y, z, w);
         }
     }
 }
